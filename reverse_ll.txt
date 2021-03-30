@@ -1,0 +1,124 @@
+Problem Domain:
+
+- Write a function to reverse a linked list.
+  - Input: linked_list
+  - Output: the same linked_list with nodes in reverse order
+
+Edge Cases:
+
+- Empty linked_list
+- One node
+- All int
+  - For str possibility add alpha list checking index to ensure proper order
+
+BigO:
+
+- Time: O(n) - Only takes as long as the linked list is
+- Space: O(1) - Not creating/removing any datastructures
+
+Visual:
+
+- Input_ll: {1} -> {2} -> {3} -> {4} -> {5} -> None
+- Output_ll: {5} -> {4} -> {3} -> {2} -> {1} -> None
+
+Algorithm:
+
+- write a function that takes in a linked list
+  - back-up original linked list
+  - clear `linked_list.head`
+  - loop through list ensuring current does not equal `None`
+    - back-up `current.next`
+    - assign `current.next` the value of the rest of the linked list that was already added
+    - attatch top node to ll.head
+    - assign next node in list to current in order to continue loop
+  - return the original linked list in its now reversed state
+
+Pseudo-Code:
+
+- function reverse_ll(linked_list)
+  - back_up = linked_lists head node
+  - linked_lists head = None
+  - while current exists
+    - back_up = second node under current 
+    - currents next = linked_lists head node
+    - linked_lists head = currents next
+    - current = back_up
+  - return linked_list
+
+Code:
+
+def reverse_ll(ll):
+    if not ll.head or (ll.head and not ll.head.next):
+        return ll
+    current = ll.head
+    ll.head = None
+    while current:
+        temp = current.next
+        current.next = ll.head
+        ll.head = current
+        current = current.next
+    return ll
+
+Verification:
+
+- step:
+
+  - 1: current = {1} -> {2} -> {3} -> {4} -> {5} -> None
+
+  - 2: ll.head = None
+
+  - 3: if {1} -> {2} -> {3} -> {4} -> {5} -> None != None
+
+  - 4: temp = {2} -> {3} -> {4} -> {5} -> None
+
+  - 5: {1} -> {2} -> {3} -> {4} -> {5} -> None = {1} -> None
+
+  - 6: ll.head = {1} -> None <--- Watch here
+
+  - 7: current = {2} -> {3} -> {4} -> {5} -> None <--- Watch here
+
+  - 8: if {2} -> {3} -> {4} -> {5} -> None != None
+
+  - 9: temp = {3} -> {4} -> {5} -> None
+
+  - 10: {1} -> None = {2} -> {1} -> None
+
+  - 11: ll.head = {2} -> {1} -> None <--- Watch here
+
+  - 12: current = {3} -> {4} -> {5} -> None <--- Watch here
+
+  - 13: if {3} -> {4} -> {5} -> None != None
+
+  - 14: temp = {4} -> {5} -> None
+
+  - 15: {2} -> {1} -> None = {3} -> {2} -> {1} -> None
+
+  - 16: ll.head = {3} -> {2} -> {1} -> None <--- Watch here
+
+  - 17: current = {4} -> {5} -> None <--- Watch here
+
+  - 18: if {4} -> {5} -> None != None
+
+  - 19: temp = {5} -> None
+
+  - 20: {3} -> {2} -> {1} -> None = {4} -> {3} -> {2} -> {1} -> None
+
+  - 21: ll.head = {4} -> {3} -> {2} -> {1} -> None <--- Watch here
+
+  - 22: current = {5} -> None <--- Watch here
+
+  - 23: if {5} -> None != None
+
+  - 24: temp = None
+
+  - 25: {4} -> {3} -> {2} -> {1} -> None = {5} -> {4} -> {3} -> {2} -> {1} -> None
+
+  - 26: ll.head = {5} -> {4} -> {3} -> {2} -> {1} -> None <--- Watch here
+
+  - 27: current = None
+
+  - 28: if None != None
+
+  - 29: Skip loop
+
+  - 30: return {5} -> {4} -> {3} -> {2} -> {1} -> None

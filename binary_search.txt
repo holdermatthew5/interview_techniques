@@ -1,0 +1,109 @@
+Problem Domain:
+
+- Write a binary search function that takes in a list of integars and returns the index of the value provided.
+  - Input: list, integar
+  - Output: integar of index
+
+Edge Cases:
+
+- Empty list
+- All int
+  - For str possibility add alpha list checking index to ensure proper order
+- One int
+- Value not present
+
+BigO:
+
+- Time: O(log(n)) - list is halved after every iteration
+- Space: O(n) - The return value only takes up as much space as the original linked list.
+
+Visual:
+
+- Input: [1, 2, 3, 4, 5, 6], 5
+  - Focus: [1, 2, 3, 4, 5, 6]
+  - Center value: 4
+  - 4 < 5
+    - Focus: [4, 5, 6]
+    - Center value: 5
+    - 5 = 5
+    - return index of 5 ==> 4
+
+Algorithm:
+
+- write a function called binary_search that takes in a list and integar
+  - assign indices the value of a list with 2 values equaling 0 and the length of the list - 1
+  - write a nested function called search that takes in a list and integar
+    - if the length of the list is 0
+      - return None
+    - if the value centered between the starting and ending indices equals the integar
+      - return the ending index added to half the difference of the starting and ending indices
+    - otherwise if the value centered between the starting and ending indices is greater than the integar
+      - reduce the ending index by half the difference of the starting and ending indices
+      - recurse the nested function passing in the unaltered list and unaltered integar
+    - otherwise if the value centered between the starting and ending indices is less than the integar
+      - increase the starting index by half the difference of the starting index and the ending index
+      - recurse the nested function passing in the unaltered list and unaltered integar
+  - return the return value of the nested function called with the list and integar as arguments
+
+
+Pseudo-Code:
+
+- function binary_search(li, i)
+  - indexes = list with values 0 and length of li - 1
+  - nested function search(li, i)
+    - if length of li == 0
+        - return None
+    - if li[((starting index - ending index) divided by 2) + ending index] == i
+      - return ((starting index - ending index) divided by 2) + ending index as index of given value
+    - otherwise if li[((starting index - ending index) divided by 2) + ending index] > i
+      - ending index -= (length of list from starting index to ending index) divided by 2
+      - search(li, i)
+    - otherwise if li[((starting index - ending index) divided by 2) + ending index] < i
+      - starting index += (length of list from starting index to ending index) divided by 2
+      - search(li, i)
+  - return search(li, i)
+
+Code:
+
+def binary_search(li, i):
+    indexes = [0,len(li)-1]
+    def search(li, i):
+        if len(li) == 0:
+            return None
+        if li[((indexes[1]-indexex[0])//2)+indexes[0]] == i:
+            return len(li)//2
+        elif li[((indexes[1]-indexex[0])//2)+indexes[0]] > i:
+            indexes[1] -= len(li[indexes[0]:indexes[1]])//2
+            search(li, i)
+        elif li[((indexes[1]-indexex[0])//2)+indexes[0]] < i:
+            indexes[0] += len(li[indexes[0]:indexes[1]])//2
+            search(li, i)
+    return search(li, i)
+
+Verification:
+
+- Input: [1, 2, 3, 4, 5, 6], 5
+
+  - step:
+
+    - 1: if no values return None
+
+    - 2: indexes = [0, 5]
+
+    - 3: if li[((5-0)//2)+0] ==> li[3] ==> 4 == 5
+
+    - 4: skip
+
+    - 5: elif li[((5-0)//2)+0] ==> li[3] ==> 4 > 5
+
+    - 6: skip
+
+    - 7: elif li[((5-0)//2)+0] ==> li[3] ==> 4 < 5
+
+    - 8: indexes[0] += len(li[0:5])//2
+
+    - 9: indexes = [3, 5]
+
+    - 10: if li[((5-3)//2)+3] ==> li[4] ==> 5 == 5
+
+    - 11: return 4

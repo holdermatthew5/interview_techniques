@@ -1,0 +1,184 @@
+Problem Domain:
+
+- Write a function that takes in a string and returns the longest palendrom present in the string.
+  - Input: string
+  - Output: string
+
+Edge Cases:
+
+- no palendromes
+- empty string
+- contains numbers
+
+BigO:
+
+- Time: O(n+(p/2)a) - Takes as long as it takes to measure half (measures from center outward) of all (a) palendromes (p) in the given string (n)
+- Space: O(^p) - Space taken by return value equals that of the largest (^) palendrome (p) contained in the given string.
+
+Visual:
+
+- Input: 'op9lionoilzxbenew2t'
+- Output: 'lionoil'
+
+Algorithm:
+
+- write a function that takes in a string
+- create three empty variables to keep track of middle left and right indices
+- convert provided string into a list
+- create an empty list to all palendromes found in the string
+- iterate through string list
+- update three empty variables to equal 1st, 2nd, and 3rd indices in string list
+- if 1st and 3rd variables values are identical
+- pass list and outer indices into helper function to find full palendrome and append to list palendromes
+- if 3rd variable references the last char in the string list
+- pass list of palendromes into helper function to find and return largest palendrome
+- return largest palendrome to user
+
+- write a function to take in the outer indices of the palendrome and the string list
+- if the value at first outer index is equal to the value at the second outer index
+- recurse function passing in string list, outerindex1 - 1, outerindex2 + 1 to find the rest of the palendrome
+- otherwise
+- pass list comprehension list of palendrome into helper function to convert back to string form
+- return stringified palendrome to main function
+
+- write a function that takes in a list of palendromes
+- create a variable to hold the current largest palendrome
+- iterate through palendromes
+- if palendrome is longer than largest
+- assign largest the value of the palendrome
+- return the largest palendrome to main function
+
+- write a function that takes in a palendrome in list form
+- create an empty variable to hold the palendrome string
+- iterate through the palendromes list
+- concatenate the palendrome with each character in that order
+
+
+Pseudo-Code:
+
+- function longest_palendrome(string)
+  - a = empty value
+  - b = empty value
+  - c = empty value
+  - string-to-list = string turned into an array
+  - palendromes = empty list to contain found palendromes
+  - for index in string-to-list:
+    - update a to li[index]
+    - update b to li[index+1]
+    - update c to li[index+2]
+    - if a and c are identical
+      - find full palendrome and append to palendromes
+    - if c is last char
+      - find and return largest palendrome
+
+- function check(string-to-list, index of a, index of b)
+  - if index of a is equal to index of b:
+    - recurse with (li, index1-1, index2+1) to widen word search
+  - else:
+    - return stringified list created from list comprehension
+
+- function largest(palendromes)
+  - largest = empty string
+  - for each palendrome
+    - if palendrome is longer than largest
+      - largest = palendrome
+  - return largest
+
+- function make_str(palendrome_list)
+  - palendrome = empty string
+  - for each char in palendrome_list
+    - concatenate palendrome with char in that order
+
+
+Code:
+
+def longest_palendrome(string):
+    a = ''
+    b = ''
+    c = ''
+    li = string.split()
+    palendromes = []
+    for index in range(len(li)):
+        a = li[index]
+        b = li[index+1]
+        c = li[index+2]
+        if a == c:
+            palendromes.append(check(li, index, index+2))
+        if c == li[-1]:
+            return largest(palendromes)
+
+def check(li, index1, index2)
+    if li[index1-1] == li[index2+1]:
+        check(li, index1-1, index2+1)
+    else:
+        return make_str(li[index1:index2])
+
+def largest(palendromes):
+    largest = ''
+    for palendrome in palendromes:
+        if len(palendrome) > len(largest):
+            largest = palendrome
+    return largest
+
+def make_str(li):
+    palendrome = ''
+    for char in li:
+        palendrome = f'{palendrome}{char}'
+
+Verification:
+
+- Input: 'op9lionoilzxbenew2t'
+  - a = o, b = p, c = 9 (values are represented in code by index but labeled directly here for readability)
+  - a != c next iteration
+  - a = p, b = 9, c = l
+  - a != c next iteration
+  - a = 9, b = l, c = i
+  - a != c next iteration
+  - a = l, b = i, c = o
+  - a != c next iteration
+  - a = i, b = o, c = n
+  - a != c
+  - a = o, b = n, c = o
+  - a == c
+    - a -= 1, c += 1 ==> a = i, c = i
+    - a == c
+      - a -= 1, c += 1 ==> a = l, c = l
+      - a == c
+        - a -= 1, c += 1 ==> a = 9, c = z
+        - a != c
+        - return make_str(string[a+1:c-1]) ==> 'lionoil' to be appended to palendrome list
+  - c is not the last char in string so skip
+    - (remember values are represented by indices, so place in string is maintained through reading length of palendrome)
+  - a = n, b = o, c = i
+  - a != c
+  - a = o, b = i, c = l
+  - a != c
+  - a = i, b = l, c = z
+  - a != c
+  - a = l, b = z, c = x
+  - a != c
+  - a = z, b = x, c = b
+  - a != c
+  - a = x, b = b, c = e
+  - a != c
+  - a = b, b = e, c = n
+  - a != c
+  - a = e, b = n, c = e
+  - a == c
+    - a -= 1, a += 1 ==> a = b, c = w
+    - a != c
+    - return make_str(string[a+1:c-1]) ==> 'ene' to be appended to palendrome list
+  - c is not the last char in string so skip
+    - (remember values are represented by indices, so place in string is maintained through reading length of palendrome)
+  - a = n, b = e, c = w
+  - a != c
+  - a = e, b = w, c = 2
+  - a != c
+  - a = w, b = 2, c = t
+  - a != c
+  - c is last char in string
+    - if length of palendrome[0] ==> 'lionoil' > ''
+      - largest = 'lionoil'
+    - length of palendrome[1] ==> 'ene' !> 'lionoil' so skip
+    - return 'lionoil' to final return statement
+  - return 'lionoil' to user
