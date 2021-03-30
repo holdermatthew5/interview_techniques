@@ -1,8 +1,6 @@
 **Author:** Matthew Holder
 **Version:** 0.1
 
-[PR]()
-
 ## Table of Contents:
 
 [Binary Search](binary_search.txt)
